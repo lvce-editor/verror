@@ -1,4 +1,3 @@
-export class VError extends Error {
-  new(message: string): Error
-  new(error: any, message: string): Error
+export class VError {
+  constructor(error: any, message?: string): Error
 }

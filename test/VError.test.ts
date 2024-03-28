@@ -1,3 +1,4 @@
+import { expect, test } from '@jest/globals'
 import { VError } from '../src/parts/VError/VError.js'
 
 test('VError - missing child stack', () => {
@@ -64,6 +65,11 @@ test('VError - remove unnecessary Error prefix', () => {
 
 test('VError - rollup error', () => {
   const RollupError = class extends Error {
+    code: any
+    pos: any
+    id: any
+    loc: any
+    frame: any
     constructor({ message, code, pos, id, loc, frame }) {
       super(message)
       this.code = code

@@ -1,3 +1,4 @@
+import { expect, test } from '@jest/globals'
 import * as MergeStacks from '../src/parts/MergeStacks/MergeStacks.js'
 
 test('mergeStacks', () => {

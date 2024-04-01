@@ -1,1 +1,1 @@
-export * from './parts/VError/VError.js'
+export * from './parts/VError/VError.ts'

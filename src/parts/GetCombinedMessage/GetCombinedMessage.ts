@@ -1,4 +1,4 @@
-import * as NormalizeErrorLine from '../NormalizeErrorLine/NormalizeErrorLine.js'
+import * as NormalizeErrorLine from '../NormalizeErrorLine/NormalizeErrorLine.ts'
 
 export const getCombinedMessage = (error, message) => {
   const stringifiedError = NormalizeErrorLine.normalizeLine(`${error}`)

@@ -1,5 +1,5 @@
-import * as GetNewLineIndex from '../GetNewLineIndex/GetNewLineIndex.js'
-import * as NormalizeErrorLine from '../NormalizeErrorLine/NormalizeErrorLine.js'
+import * as GetNewLineIndex from '../GetNewLineIndex/GetNewLineIndex.ts'
+import * as NormalizeErrorLine from '../NormalizeErrorLine/NormalizeErrorLine.ts'
 
 export const mergeStacks = (parent, child) => {
   if (!child) {
@@ -12,7 +12,9 @@ export const mergeStacks = (parent, child) => {
   }
   const parentFirstLine = parent.slice(0, parentNewLineIndex)
   const childRest = child.slice(childNewLineIndex)
-  const childFirstLine = NormalizeErrorLine.normalizeLine(child.slice(0, childNewLineIndex))
+  const childFirstLine = NormalizeErrorLine.normalizeLine(
+    child.slice(0, childNewLineIndex),
+  )
   if (parentFirstLine.includes(childFirstLine)) {
     return parentFirstLine + childRest
   }

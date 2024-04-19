@@ -10,7 +10,7 @@ export class VError extends Error {
     super(combinedMessage)
     this.name = 'VError'
     if (error instanceof Error) {
-      this.stack = MergeStacks.mergeStacks(this.stack, error.stack)
+      this.stack = MergeStacks.mergeStacks(this.stack as string, error.stack)
     }
     if (error.codeFrame) {
       // @ts-ignore

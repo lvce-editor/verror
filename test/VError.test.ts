@@ -116,3 +116,19 @@ test('VError - module not found', () => {
     `VError: Utility process exited before ipc connection was established: Cannot read properties of undefined (reading 'match')`,
   )
 })
+
+test('VError - with codeFrame', () => {
+  const cause = new TypeError(
+    "x is not a function",
+  )
+  // @ts-ignore
+  cause.codeFrame = `let x = 1;`
+  const verror = new VError(
+    cause,
+    'failed ',
+  )
+  // @ts-ignore
+  expect(verror.codeFrame).toBe(
+    'let x = 1;'
+  )
+})

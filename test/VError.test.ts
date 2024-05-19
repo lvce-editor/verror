@@ -1,3 +1,4 @@
+import { expect, test } from '@jest/globals'
 import { VError } from '../src/parts/VError/VError.js'
 
 test('VError - missing child stack', () => {
@@ -65,6 +66,11 @@ test('VError - remove unnecessary Error prefix', () => {
 
 test('VError - rollup error', () => {
   const RollupError = class extends Error {
+    code: any
+    pos: any
+    id: any
+    loc: any
+    frame: any
     constructor({ message, code, pos, id, loc, frame }) {
       super(message)
       this.code = code
@@ -94,5 +100,36 @@ test('VError - rollup error', () => {
   const verror = new VError(error, 'Failed to bundle js')
   expect(verror.message).toBe(
     'Failed to bundle js: Merge conflict marker encountered.',
+  )
+})
+
+test('VError - module not found', () => {
+  const cause = new Error(
+    "[ERR_MODULE_NOT_FOUND]: Cannot find module '/test/packages/embeds-worker/src/embedsProcessMain.js' imported from /test/packages/main-process/",
+  )
+  cause.message = "Cannot read properties of undefined (reading 'match')"
+  cause.stack = undefined
+  const verror = new VError(
+    cause,
+    'Utility process exited before ipc connection was established',
+  )
+  expect(verror.stack).toMatch(
+    `VError: Utility process exited before ipc connection was established: Cannot read properties of undefined (reading 'match')`,
+  )
+})
+
+test('VError - with codeFrame', () => {
+  const cause = new TypeError(
+    "x is not a function",
+  )
+  // @ts-ignore
+  cause.codeFrame = `let x = 1;`
+  const verror = new VError(
+    cause,
+    'failed ',
+  )
+  // @ts-ignore
+  expect(verror.codeFrame).toBe(
+    'let x = 1;'
   )
 })

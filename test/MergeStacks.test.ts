@@ -1,3 +1,4 @@
+import { expect, test } from '@jest/globals'
 import * as MergeStacks from '../src/parts/MergeStacks/MergeStacks.js'
 
 test('mergeStacks', () => {
@@ -42,4 +43,19 @@ test('mergeStacks - different messages', () => {
     at convertProgram (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:12218:12)
     at Module.setSource (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:14042:24)
     at async ModuleLoader.addModuleSource (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:18681:13)'`)
+})
+
+test('mergeStacks - missing newline in child stack', () => {
+  const parentStack = `VError: Failed to link extension: Failed to create symbolic link from C:/test/debug-node/packages/extension/ to /test/linked-extensions/builtin.debug-node: EPERM: operation not permitted, symlink '/test/debug-node/packages/extension' -> '/test/linked-extensions/builtin.debug-node'
+    at Module.link (/test/packages/shared-process/src/parts/ExtensionLink/ExtensionLink.js:40:11)
+    at async Module.handleCliArgs (/test/packages/shared-process/src/parts/CliLink/CliLink.js:9:5)
+    at async Module.handleCliArgs (/test/packages/shared-process/src/parts/Cli/Cli.js:24:5)
+    at async main (/test/packages/shared-process/src/sharedProcessMain.js:30:5)`
+  const childStack = `error`
+  expect(MergeStacks.mergeStacks(parentStack, childStack))
+    .toBe(`VError: Failed to link extension: Failed to create symbolic link from C:/test/debug-node/packages/extension/ to /test/linked-extensions/builtin.debug-node: EPERM: operation not permitted, symlink '/test/debug-node/packages/extension' -> '/test/linked-extensions/builtin.debug-node'
+    at Module.link (/test/packages/shared-process/src/parts/ExtensionLink/ExtensionLink.js:40:11)
+    at async Module.handleCliArgs (/test/packages/shared-process/src/parts/CliLink/CliLink.js:9:5)
+    at async Module.handleCliArgs (/test/packages/shared-process/src/parts/Cli/Cli.js:24:5)
+    at async main (/test/packages/shared-process/src/sharedProcessMain.js:30:5)`)
 })

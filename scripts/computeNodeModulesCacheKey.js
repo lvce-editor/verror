@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto'
+import { hash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -24,15 +24,7 @@ const getContent = (absolutePath) => {
 }
 
 export const computeHash = (contents) => {
-  const hash = createHash('sha1')
-  if (Array.isArray(contents)) {
-    for (const content of contents) {
-      hash.update(content)
-    }
-  } else if (typeof contents === 'string') {
-    hash.update(contents)
-  }
-  return hash.digest('hex')
+  return hash('sha1', JSON.stringify(contents))
 }
 
 const computeCacheKey = async (locations) => {

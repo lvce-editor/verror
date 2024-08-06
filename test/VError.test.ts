@@ -118,17 +118,10 @@ test('VError - module not found', () => {
 })
 
 test('VError - with codeFrame', () => {
-  const cause = new TypeError(
-    "x is not a function",
-  )
+  const cause = new TypeError('x is not a function')
   // @ts-ignore
   cause.codeFrame = `let x = 1;`
-  const verror = new VError(
-    cause,
-    'failed ',
-  )
+  const verror = new VError(cause, 'failed ')
   // @ts-ignore
-  expect(verror.codeFrame).toBe(
-    'let x = 1;'
-  )
+  expect(verror.codeFrame).toBe('let x = 1;')
 })

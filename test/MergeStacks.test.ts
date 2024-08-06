@@ -37,8 +37,6 @@ test('mergeStacks - missing newline in child stack', () => {
     at async main (/test/packages/shared-process/src/sharedProcessMain.js:30:5)`)
 })
 
-
-
 test.skip('mergeStacks - different messages', () => {
   const parentStack = `VError: Failed to bundle js: RollupError: build/.tmp/dist/2f27e39/packages/test-worker/src/parts/IpcChildModule/IpcChildModule.js (7:0): Merge conflict marker encountered.
     at Module.bundleJs (/test/build/src/parts/BundleJsRollup/BundleJsRollup.js:136:11)

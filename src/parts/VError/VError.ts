@@ -2,7 +2,7 @@ import * as GetCombinedMessage from '../GetCombinedMessage/GetCombinedMessage.ts
 import * as MergeStacks from '../MergeStacks/MergeStacks.ts'
 
 export class VError extends Error {
-  constructor(error, message) {
+  constructor(error: any, message?: string) {
     const combinedMessage = GetCombinedMessage.getCombinedMessage(
       error,
       message,

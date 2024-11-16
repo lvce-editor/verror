@@ -1,4 +1,4 @@
-export const normalizeLine = (line: string) => {
+export const normalizeLine = (line: string): string => {
   if (line.startsWith('Error: ')) {
     return line.slice(`Error: `.length)
   }

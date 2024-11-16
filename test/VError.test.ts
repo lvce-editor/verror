@@ -113,14 +113,14 @@ test('VError - module not found', () => {
     'Utility process exited before ipc connection was established',
   )
   expect(verror.stack).toMatch(
-    `VError: Utility process exited before ipc connection was established: Cannot read properties of undefined (reading 'match')`,
+    "VError: Utility process exited before ipc connection was established: Cannot read properties of undefined (reading 'match')",
   )
 })
 
 test('VError - with codeFrame', () => {
   const cause = new TypeError('x is not a function')
   // @ts-ignore
-  cause.codeFrame = `let x = 1;`
+  cause.codeFrame = 'let x = 1;'
   const verror = new VError(cause, 'failed ')
   // @ts-ignore
   expect(verror.codeFrame).toBe('let x = 1;')

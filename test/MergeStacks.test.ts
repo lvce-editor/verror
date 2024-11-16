@@ -28,7 +28,7 @@ test('mergeStacks - missing newline in child stack', () => {
     at async Module.handleCliArgs (/test/packages/shared-process/src/parts/CliLink/CliLink.js:9:5)
     at async Module.handleCliArgs (/test/packages/shared-process/src/parts/Cli/Cli.js:24:5)
     at async main (/test/packages/shared-process/src/sharedProcessMain.js:30:5)`
-  const childStack = `error`
+  const childStack = 'error'
   expect(MergeStacks.mergeStacks(parentStack, childStack))
     .toBe(`VError: Failed to link extension: Failed to create symbolic link from C:/test/debug-node/packages/extension/ to /test/linked-extensions/builtin.debug-node: EPERM: operation not permitted, symlink '/test/debug-node/packages/extension' -> '/test/linked-extensions/builtin.debug-node'
     at Module.link (/test/packages/shared-process/src/parts/ExtensionLink/ExtensionLink.js:40:11)

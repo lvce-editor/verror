@@ -21,6 +21,7 @@ export default tseslint.config(
       '**/server/**',
       '**/e2e/**',
       'scripts',
+      'src/index.d.ts',
       'rollup.config.js',
       'eslint.config.js',
       'packages/text-search-worker/src/textSearchWorkerMain.ts',

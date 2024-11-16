@@ -27,7 +27,7 @@ test('VError - merging stacks', () => {
   at handleDropIntoFolder (http://localhost:3000/packages/renderer-worker/src/parts/ViewletExplorer/ViewletExplorerHandleDropIndex.js:14:22)`
   const verror = new VError(cause, 'Failed to drop files')
   expect(verror.stack).toBe(
-    `VError: Failed to drop files: TypeError: Cannot read properties of undefined (reading \'match\')
+    `VError: Failed to drop files: TypeError: Cannot read properties of undefined (reading 'match')
   at getProtocol (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:18:29)
   at Module.copy (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:110:20)
   at handleDropIntoFolder (http://localhost:3000/packages/renderer-worker/src/parts/ViewletExplorer/ViewletExplorerHandleDropIndex.js:14:22)`,
@@ -113,14 +113,14 @@ test('VError - module not found', () => {
     'Utility process exited before ipc connection was established',
   )
   expect(verror.stack).toMatch(
-    `VError: Utility process exited before ipc connection was established: Cannot read properties of undefined (reading 'match')`,
+    "VError: Utility process exited before ipc connection was established: Cannot read properties of undefined (reading 'match')",
   )
 })
 
 test('VError - with codeFrame', () => {
   const cause = new TypeError('x is not a function')
   // @ts-ignore
-  cause.codeFrame = `let x = 1;`
+  cause.codeFrame = 'let x = 1;'
   const verror = new VError(cause, 'failed ')
   // @ts-ignore
   expect(verror.codeFrame).toBe('let x = 1;')

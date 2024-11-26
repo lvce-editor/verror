@@ -3,7 +3,7 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.strictTypeChecked,
   {
     languageOptions: {
       parserOptions: {
@@ -24,7 +24,6 @@ export default tseslint.config(
       'src/index.d.ts',
       'rollup.config.js',
       'eslint.config.js',
-      'packages/text-search-worker/src/textSearchWorkerMain.ts',
     ],
   },
   {

@@ -14,12 +14,16 @@ export const mergeStacks = (
     return parent
   }
   const parentFirstLine = parent.slice(0, parentNewLineIndex)
+  const parentRest = parent.slice(parentNewLineIndex)
   const childRest = child.slice(childNewLineIndex)
   const childFirstLine = NormalizeErrorLine.normalizeLine(
     child.slice(0, childNewLineIndex),
   )
   if (parentFirstLine.includes(childFirstLine)) {
     return parentFirstLine + childRest
+  }
+  if (parentFirstLine.includes(': ')) {
+    return parent + childRest + parentRest
   }
   return child
 }

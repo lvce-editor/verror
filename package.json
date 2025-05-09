@@ -23,7 +23,7 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@types/eslint__js": "^9.14.0",
     "eslint": "9.26.0",
-    "execa": "^9.5.2",
+    "execa": "^9.5.3",
     "jest": "^29.7.0",
     "prettier": "^3.5.3",
     "rollup": "^4.40.2",

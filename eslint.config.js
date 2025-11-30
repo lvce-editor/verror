@@ -1,49 +1,17 @@
-import eslint from '@eslint/js'
-import tseslint from 'typescript-eslint'
+import * as config from '@lvce-editor/eslint-config'
+import * as actions from '@lvce-editor/eslint-plugin-github-actions'
 
-export default tseslint.config(
-  eslint.configs.recommended,
-  tseslint.configs.strictTypeChecked,
-  {
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-  },
-  {
-    ignores: [
-      'dist',
-      '.tmp',
-      '**/build/**',
-      '**/coverage/**',
-      '**/server/**',
-      '**/e2e/**',
-      'scripts',
-      'src/index.d.ts',
-      'rollup.config.js',
-      'eslint.config.js',
-    ],
-  },
+export default [
+  ...config.default,
+  ...actions.default,
   {
     rules: {
-      '@typescript-eslint/explicit-function-return-type': 'error',
-      '@typescript-eslint/consistent-type-exports': 'error',
-      '@typescript-eslint/consistent-type-imports': 'error',
+      'unicorn/error-message': 'off',
+      '@typescript-eslint/prefer-readonly-parameter-types': 'off',
+      'github-actions/ci-versions': 'off',
     },
   },
   {
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/ban-ts-comment': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-      '@typescript-eslint/no-unsafe-return': 'off',
-      'no-case-declarations': 'off',
-      '@typescript-eslint/no-unsafe-argument': 'off',
-      '@typescript-eslint/restrict-template-expressions': 'off',
-    },
+    ignores: ['src/index.d.ts'],
   },
-)
+]

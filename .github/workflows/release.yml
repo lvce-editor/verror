@@ -43,7 +43,7 @@ jobs:
         os: [windows-2022, macos-14, ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
@@ -52,7 +52,7 @@ jobs:
         id: nodeModulesCacheKey
         run: echo "value=$(node scripts/computeNodeModulesCacheKey.js)" >> $GITHUB_OUTPUT
         shell: bash
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         id: npm-cache
         with:
           path: '**/node_modules'
@@ -64,7 +64,7 @@ jobs:
       - run: npm run type-check
       - run: npm run lint
       - run: node scripts/build.js
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         if: matrix.os == 'ubuntu-22.04'
         with:
           name: dist
@@ -75,7 +75,7 @@ jobs:
     needs: ['create-release', 'build-release']
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v6
         with:
           name: dist

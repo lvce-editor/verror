@@ -70,7 +70,7 @@ test('VError - rollup error', () => {
     id: any
     loc: any
     frame: any
-    constructor({ message, code, pos, id, loc, frame }) {
+    constructor({ code, frame, id, loc, message, pos }) {
       super(message)
       this.code = code
       this.pos = pos
@@ -80,21 +80,21 @@ test('VError - rollup error', () => {
     }
   }
   const error = new RollupError({
-    message: 'Merge conflict marker encountered.',
     code: 'PARSE_ERROR',
-    pos: 236,
-    id: '/test/packages/test-worker/src/parts/IpcChildModule/IpcChildModule.js',
     frame: `5:     case IpcChildType.MessagePort:
 6:       return import('../IpcChildWithMessagePort/IpcChildWithMessagePort.js')
 7: <<<<<<< HEAD
    ^
 8:     case IpcChildType.ModuleWorkerAndMessagePort:
 9:       return import('../IpcChildWithModuleWorkerAndMessagePort/IpcChildWithModuleWorkerAndMessagePort.js')`,
+    id: '/test/packages/test-worker/src/parts/IpcChildModule/IpcChildModule.js',
     loc: {
       column: 0,
       file: '/test/packages/test-worker/src/parts/IpcChildModule/IpcChildModule.js',
       line: 7,
     },
+    message: 'Merge conflict marker encountered.',
+    pos: 236,
   })
   const verror = new VError(error, 'Failed to bundle js')
   expect(verror.message).toBe(

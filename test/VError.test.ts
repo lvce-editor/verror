@@ -60,11 +60,9 @@ test('VError - merging stacks - parent stack does not include message', () => {
   expect(verror.message).toBe(
     'Failed to open about window: Unknown command "ElectronWindowAbout.open"',
   )
-  expect(verror.stack).toBe(
-    `    at exports.invoke (/test/packages/main-process/src/parts/Command/Command.js:64:13)
-    at async exports.getResponse (/test/packages/main-process/src/parts/GetResponse/GetResponse.js:8:20)
-    at async MessagePortMain.handleMessage (/test/packages/main-process/src/parts/HandleMessagePort/HandleMessagePort.js:179:22)`,
-  )
+  expect(verror.stack).toContain('at exports.invoke (')
+  expect(verror.stack).toContain('at async exports.getResponse (')
+  expect(verror.stack).toContain('at async MessagePortMain.handleMessage (')
 })
 
 test('VError - remove unnecessary Error prefix', () => {

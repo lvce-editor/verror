@@ -43,9 +43,9 @@ test('VError - merging stacks', () => {
   const verror = new VError(cause, 'Failed to drop files')
   expect(verror.stack).toBe(
     `VError: Failed to drop files: TypeError: Cannot read properties of undefined (reading 'match')
-  at getProtocol (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:18:29)
-  at Module.copy (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:110:20)
-  at handleDropIntoFolder (http://localhost:3000/packages/renderer-worker/src/parts/ViewletExplorer/ViewletExplorerHandleDropIndex.js:14:22)`,
+    at getProtocol (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:18:29)
+    at Module.copy (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:110:20)
+    at handleDropIntoFolder (http://localhost:3000/packages/renderer-worker/src/parts/ViewletExplorer/ViewletExplorerHandleDropIndex.js:14:22)`,
   )
 })
 
@@ -61,9 +61,9 @@ test('VError - merging stacks - parent stack does not include message', () => {
     'Failed to open about window: Unknown command "ElectronWindowAbout.open"',
   )
   expect(verror.stack).toBe(
-    `  at exports.invoke (/test/packages/main-process/src/parts/Command/Command.js:64:13)
-  at async exports.getResponse (/test/packages/main-process/src/parts/GetResponse/GetResponse.js:8:20)
-  at async MessagePortMain.handleMessage (/test/packages/main-process/src/parts/HandleMessagePort/HandleMessagePort.js:179:22)`,
+    `    at exports.invoke (/test/packages/main-process/src/parts/Command/Command.js:64:13)
+    at async exports.getResponse (/test/packages/main-process/src/parts/GetResponse/GetResponse.js:8:20)
+    at async MessagePortMain.handleMessage (/test/packages/main-process/src/parts/HandleMessagePort/HandleMessagePort.js:179:22)`,
   )
 })
 

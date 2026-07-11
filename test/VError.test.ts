@@ -3,8 +3,8 @@ import { VError } from '../src/parts/VError/VError.js'
 
 const createErrorWithStack = (
   message: string,
-  stack: string,
-  ErrorConstructor: new () => Error = Error,
+  stack = message,
+  ErrorConstructor: new (message?: string) => Error = Error,
 ): Error => {
   const error = new ErrorConstructor(message)
   Object.defineProperty(error, 'stack', {

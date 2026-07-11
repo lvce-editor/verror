@@ -1,11 +1,23 @@
 import { expect, test } from '@jest/globals'
 import { VError } from '../src/parts/VError/VError.js'
 
+const createErrorWithStack = (
+  message: string,
+  stack: string,
+): Error => {
+  const error = new Error(message)
+  Object.defineProperty(error, 'stack', {
+    configurable: true,
+    value: stack,
+  })
+  return error
+}
+
 test('VError - missing child stack', () => {
-  class DOMException extends Error {
+class DOMException extends Error {
     constructor(message) {
       super(message)
-      this.stack = undefined
+      Object.defineProperty(this, 'stack', { configurable: true, value: undefined })
       this.name = 'DOMException'
     }
   }
@@ -19,12 +31,13 @@ test('VError - missing child stack', () => {
 })
 
 test('VError - merging stacks', () => {
-  const cause = new TypeError()
-  cause.message = "Cannot read properties of undefined (reading 'match')"
-  cause.stack = `Cannot read properties of undefined (reading 'match')
-  at getProtocol (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:18:29)
-  at Module.copy (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:110:20)
-  at handleDropIntoFolder (http://localhost:3000/packages/renderer-worker/src/parts/ViewletExplorer/ViewletExplorerHandleDropIndex.js:14:22)`
+  const cause = createErrorWithStack(
+    "Cannot read properties of undefined (reading 'match')",
+    `Cannot read properties of undefined (reading 'match')
+    at getProtocol (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:18:29)
+    at Module.copy (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:110:20)
+    at handleDropIntoFolder (http://localhost:3000/packages/renderer-worker/src/parts/ViewletExplorer/ViewletExplorerHandleDropIndex.js:14:22)`,
+  )
   const verror = new VError(cause, 'Failed to drop files')
   expect(verror.stack).toBe(
     `VError: Failed to drop files: TypeError: Cannot read properties of undefined (reading 'match')
@@ -35,11 +48,12 @@ test('VError - merging stacks', () => {
 })
 
 test('VError - merging stacks - parent stack does not include message', () => {
-  const error = new Error()
-  error.message = 'Unknown command "ElectronWindowAbout.open"'
-  error.stack = `  at exports.invoke (/test/packages/main-process/src/parts/Command/Command.js:64:13)
-  at async exports.getResponse (/test/packages/main-process/src/parts/GetResponse/GetResponse.js:8:20)
-  at async MessagePortMain.handleMessage (/test/packages/main-process/src/parts/HandleMessagePort/HandleMessagePort.js:179:22)`
+  const error = createErrorWithStack(
+    'Unknown command "ElectronWindowAbout.open"',
+    `  at exports.invoke (/test/packages/main-process/src/parts/Command/Command.js:64:13)
+    at async exports.getResponse (/test/packages/main-process/src/parts/GetResponse/GetResponse.js:8:20)
+    at async MessagePortMain.handleMessage (/test/packages/main-process/src/parts/HandleMessagePort/HandleMessagePort.js:179:22)`
+  )
   const verror = new VError(error, 'Failed to open about window')
   expect(verror.message).toBe(
     'Failed to open about window: Unknown command "ElectronWindowAbout.open"',
@@ -54,6 +68,10 @@ test('VError - merging stacks - parent stack does not include message', () => {
 test('VError - remove unnecessary Error prefix', () => {
   const error = new Error()
   error.message = 'Failed to import script /test/extension.js: Not found (404)'
+  Object.defineProperty(error, 'stack', {
+    configurable: true,
+    value: undefined,
+  })
   const verror = new VError(
     error,
     'Failed to activate extension test.test-extension',
@@ -103,11 +121,10 @@ test('VError - rollup error', () => {
 })
 
 test('VError - module not found', () => {
-  const cause = new Error(
-    "[ERR_MODULE_NOT_FOUND]: Cannot find module '/test/packages/embeds-worker/src/embedsProcessMain.js' imported from /test/packages/main-process/",
+  const cause = createErrorWithStack(
+    'Cannot read properties of undefined (reading \'match\')',
+    'none',
   )
-  cause.message = "Cannot read properties of undefined (reading 'match')"
-  cause.stack = undefined
   const verror = new VError(
     cause,
     'Utility process exited before ipc connection was established',

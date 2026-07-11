@@ -4,8 +4,9 @@ import { VError } from '../src/parts/VError/VError.js'
 const createErrorWithStack = (
   message: string,
   stack: string,
+  ErrorConstructor: new () => Error = Error,
 ): Error => {
-  const error = new Error(message)
+  const error = new ErrorConstructor(message)
   Object.defineProperty(error, 'stack', {
     configurable: true,
     value: stack,
@@ -37,6 +38,7 @@ test('VError - merging stacks', () => {
     at getProtocol (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:18:29)
     at Module.copy (http://localhost:3000/packages/renderer-worker/src/parts/FileSystem/FileSystem.js:110:20)
     at handleDropIntoFolder (http://localhost:3000/packages/renderer-worker/src/parts/ViewletExplorer/ViewletExplorerHandleDropIndex.js:14:22)`,
+    TypeError,
   )
   const verror = new VError(cause, 'Failed to drop files')
   expect(verror.stack).toBe(

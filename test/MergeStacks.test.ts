@@ -37,7 +37,7 @@ test('mergeStacks - missing newline in child stack', () => {
     at async main (/test/packages/shared-process/src/sharedProcessMain.js:30:5)`)
 })
 
-test.skip('mergeStacks - different messages', () => {
+test('mergeStacks - different messages', () => {
   const parentStack = `VError: Failed to bundle js: RollupError: build/.tmp/dist/2f27e39/packages/test-worker/src/parts/IpcChildModule/IpcChildModule.js (7:0): Merge conflict marker encountered.
     at Module.bundleJs (/test/build/src/parts/BundleJsRollup/BundleJsRollup.js:136:11)
     at async bundleJs (/test/build/src/parts/Static/Static.js:434:3)
@@ -45,15 +45,15 @@ test.skip('mergeStacks - different messages', () => {
     at async main (/test/build/src/build.js:78:5)',`
   const childStack = `RollupError: Merge conflict marker encountered.
     at getRollupError (/test/build/node_modules/rollup/dist/es/shared/parseAst.js:376:41)
-    at ParseError.initialise (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:11158:28)
+    at ParseError.initialize (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:11158:28)
     at convertNode (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:12898:10)
     at convertProgram (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:12218:12)
     at Module.setSource (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:14042:24)
     at async ModuleLoader.addModuleSource (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:18681:13)'`
   expect(MergeStacks.mergeStacks(parentStack, childStack))
-    .toBe(`VError: Failed to bundle js: RollupError: build/.tmp/dist/2f27e39/packages/test-worker/src/parts/IpcChildModule/IpcChildModule.js (7:0): Merge conflict marker encountered.
+    .toBe(`RollupError: Merge conflict marker encountered.
     at getRollupError (/test/build/node_modules/rollup/dist/es/shared/parseAst.js:376:41)
-    at ParseError.initialise (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:11158:28)
+    at ParseError.initialize (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:11158:28)
     at convertNode (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:12898:10)
     at convertProgram (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:12218:12)
     at Module.setSource (/test/build/node_modules/rollup/dist/es/shared/node-entry.js:14042:24)

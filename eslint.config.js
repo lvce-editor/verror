@@ -1,9 +1,9 @@
+import { defineConfig } from 'eslint/config'
 import * as config from '@lvce-editor/eslint-config'
-import * as actions from '@lvce-editor/eslint-plugin-github-actions'
 
-export default [
+export default defineConfig([
   ...config.default,
-  ...actions.default,
+  ...config.recommendedActions,
   {
     rules: {
       'unicorn/error-message': 'off',
@@ -14,4 +14,4 @@ export default [
   {
     ignores: ['src/index.d.ts'],
   },
-]
+])
